@@ -1,0 +1,1 @@
+LAV Filters是一组基于ffmpeg项目中的 libavformat/libavcodec 库的 directshow 分离器和音视频解码器，几乎允许您在 directshow 播放器中播放任何格式的媒体文件

@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\attribute.o
+./release\load_interface.o
+./release\run_interface.o
+./release\skill.o
+./release\player.o
+./release\interface.o
+./release\monster.o
+./release\moc_mainwindow.o
+);

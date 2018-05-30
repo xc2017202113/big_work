@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\attribute.o
+./debug\load_interface.o
+./debug\run_interface.o
+./debug\skill.o
+./debug\player.o
+./debug\interface.o
+./debug\monster.o
+./debug\moc_mainwindow.o
+);
