@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include"windows.h"
 
 int player::GRID_SIZE = 32;
 /*
@@ -29,12 +29,15 @@ player::player()
     skill first;//第一个技能--普通攻击
     //技能的实现
     first.set_CD(10);
-    first.set_state(1);
+    //first.set_state(1);
+    this->_state = 1;
     first.set_harm(2);
     first.set_type(1);
     first.store_pic("F:\\qt\\test_rpg\\test_vision1\\pic\\file.png");
 
     this->sl.push_back(first);
+    this->it_skill = this->sl.begin();
+    (*it_skill).it_pic = (*it_skill).pic.begin();
 
     //设置人物属性
     this->setDirec(1);
@@ -43,7 +46,7 @@ player::player()
     this->setX(20);
     this->setY(10);
     this->setLV(1);
-    this->setHP(10);
+    this->setHP(20);
     this->setMP(5);
     this->setEXP(10);
     this->setAtt(5);
@@ -58,14 +61,19 @@ player::player()
     this->fight_all.load("F:\\qt\\test_rpg\\test_vision1\\pic\\fight_player.png");
 
     QImage buff;
-    buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\attack.png")
+    //buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\attack.png");
     QImage attack_pic;
-    for(int i=0;i<3;i++)
-    {
-        attack_pic = buff.copy(QRect(i*this->GRID_SIZE,4*this->GRID_SIZE,4*this->GRID_SIZE,4*this->GRID_SIZE));
-        this->fight.push_back(attack_pic);
-    }//加载进战斗的图片
 
+   // this->fight_all.load("F:\\qt\\test_rpg\\test_vision1\\pic\\fight_player.png");//加载总的战斗图片
+    buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\act_1.png");
+    if(buff.isNull()) qDebug()<<"wrong to load fight"<<endl;
+    this->fight.push_back(buff);
+    buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\act_2.png");
+    this->fight.push_back(buff);
+    buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\act_3.png");
+    this->fight.push_back(buff);
+    buff.load("F:\\qt\\test_rpg\\test_vision1\\pic\\act_4.png");
+    this->fight.push_back(buff);//加载释放技能的图片
 
 
     if(this->all.isNull()) qDebug()<<"all is wrong"<<endl;
@@ -103,10 +111,44 @@ void player::key_move(QKeyEvent *e)
 
 void player::show(QPainter *pa)
 {
-    this->it_pic = this->pic.begin();
-    this->it_pic += (this->_direc-1)*3 + this->_steps;
-    if((*it_pic).isNull()) qDebug()<<"wrong to load this player"<<endl;
-    pa->drawImage(this->_posX*GRID_SIZE,this->_posY*GRID_SIZE,(*it_pic));
+    if(this->_sence ==1)//游走模式
+    {
+        this->it_pic = this->pic.begin();
+        this->it_pic += (this->_direc-1)*3 + this->_steps;
+        if((*it_pic).isNull()) qDebug()<<"wrong to load this player"<<endl;
+        pa->drawImage(this->_posX*GRID_SIZE,this->_posY*GRID_SIZE,(*it_pic));
+    }
+    else if(this->_sence == 2 )//战斗模式
+    {
+        this->setX(3);
+        this->setY(7);
+        pa->drawImage(this->_posX*GRID_SIZE,this->_posY*GRID_SIZE,this->fight_all);
+    }
+    else if(this->_sence == 3)
+    {
+        /*for(this->it_pic = this->fight.begin();it_pic != this->fight.end();it_pic++)
+        {
+            pa->drawImage(this->_posX*GRID_SIZE,this->_posY*GRID_SIZE,*(this->it_pic));
+            //Sleep(800);
+        }*/
+        static int time = 0;
+        this->it_pic = this->fight.begin();
+        this->it_pic += time;
+        if(it_pic == this->fight.end())
+        {
+            time = 0;
+            this->setsence(4);//放完图片切回2
+        }
+        else
+        {
+            pa->drawImage(this->_posX*GRID_SIZE,this->_posY*GRID_SIZE,*(this->it_pic));
+            time++;
+        }
+
+
+    }
+
+
     pa->setBrush(Qt::NoBrush);
     pa->drawRect(this->_posX * GRID_SIZE, (this->_posY - 0.6) * GRID_SIZE, GRID_SIZE, GRID_SIZE / 8);
     pa->drawRect(this->_posX * GRID_SIZE, (this->_posY - 0.4) * GRID_SIZE, GRID_SIZE, GRID_SIZE / 8);
@@ -115,4 +157,15 @@ void player::show(QPainter *pa)
     pa->drawRect(this->_posX * GRID_SIZE, (this->_posY - 0.6) * GRID_SIZE, _HPnow * GRID_SIZE / _HP, GRID_SIZE / 8);
     pa->setBrush(Qt::blue);
     pa->drawRect(this->_posX * GRID_SIZE, (this->_posY - 0.4) * GRID_SIZE, _MPnow * GRID_SIZE / _MP, GRID_SIZE / 8);
+}
+
+void player::attack(QKeyEvent *k)
+{
+    if(k->key() == Qt::Key_J)
+    {
+        (*this->it_skill).it_pic = (*this->it_skill).pic.begin();//第一个技能
+        (*this->it_skill).change_state();//改变技能的状态
+        qDebug()<<"skill state: "<<(*this->it_skill).get_state();
+        this->setsence(3);
+    }
 }

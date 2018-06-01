@@ -39,6 +39,7 @@ public:
     int getHP()const{return _HPnow;}
     int getsence()const{return this->_sence;}
     int getcamp()const{return this->_camp;}
+    int getstate()const{return this->_state;}
     QImage getpic() const{return this->all;}
 
     //这些函数是与属性值相关的函数
@@ -49,7 +50,7 @@ public:
     void injured(int n_attack);
     void healed(int HP);
     void addEXP(int e);
-
+    void death();
 
     virtual void key_move(QKeyEvent *e){};
     virtual void show(QPainter *pa){};
@@ -61,12 +62,13 @@ protected:
     vector<QImage> pic;
     vector<QImage>::iterator it_pic;
 
-    vector<QImage> fight;//战斗模式的图片
+    vector<QImage> fight;//战斗模式技能的图片
+
     QImage fight_all;//总的战斗图片
 
     short _direc;//0123 下左右上
     int _steps;//人物走的步数
-    short _state;    //0死亡1正常
+    int _state;    //0死亡1正常
     int _posX;  //人物的坐标
     int _posY;
     int _LV;      //等级
@@ -81,7 +83,7 @@ protected:
     int _defend;        //防御力
     int _m_defend; //魔法防御
     int _camp;     //阵营
-    int _sence; //场景 1.游走模式 2.战斗模式
+    int _sence; //场景 1.游走模式 2.战斗模式 3.放技能的图片（另外加的）
 };
 
 #endif // ATTRIBUTE_H

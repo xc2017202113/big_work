@@ -14,6 +14,7 @@
 #include"player.h"
 #include"attribute.h"
 #include"monster.h"
+#include"fight_interface.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +45,7 @@ private:
     run_interface *rd;
     player *_player1;
     monster *_monster1;
+    fight_interface *fd;
     QTimer *monster_move;
     short now_interface;//现在的界面 1.登录界面 2.游走界面 3.战斗界面
 };

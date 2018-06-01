@@ -4,7 +4,7 @@
 #include"system.h"
 //任务系统
 
-class mission_system：public system
+class mission_system:public system
 {
 public:
     mission_system();

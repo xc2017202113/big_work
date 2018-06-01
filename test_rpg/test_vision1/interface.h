@@ -23,13 +23,13 @@ public:
 
     void set_interface(short i){this->now_interface = i;}//设置场景
     short get_interface()const{return this->now_interface;}//得到场景
-
+    vector<QImage>::iterator it;
 
 
 protected:
     vector<QImage> _pic;
     short now_interface;//1.登录界面 2.游走界面 3.战斗界面
-    vector<QImage>::iterator it;
+
     bool start = false;
 };
 

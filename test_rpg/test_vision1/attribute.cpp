@@ -71,4 +71,10 @@ void attribute::addEXP(int e)
         this->LVup();
 }
 
-
+void attribute::death()
+{
+    if(this->_HPnow<=0)
+    {
+        this->_state = 0;
+    }
+}

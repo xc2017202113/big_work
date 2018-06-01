@@ -9,8 +9,8 @@ class NPC:public attribute
 {
 public:
     NPC();
-    void key_move(QKeyEvent *e);
-    void show(QPainter *pa);
+    void key_move(QKeyEvent *e){};
+    void show(QPainter *pa){};
 };
 
 #endif // NPC_H

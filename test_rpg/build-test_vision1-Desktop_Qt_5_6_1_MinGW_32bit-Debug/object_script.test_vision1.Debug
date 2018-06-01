@@ -8,5 +8,13 @@ INPUT(
 ./debug\player.o
 ./debug\interface.o
 ./debug\monster.o
+./debug\system.o
+./debug\equipment.o
+./debug\mission_system.o
+./debug\bag_system.o
+./debug\setting_system.o
+./debug\player_system.o
+./debug\npc.o
+./debug\fight_interface.o
 ./debug\moc_mainwindow.o
 );

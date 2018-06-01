@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     bag_system.cpp \
     setting_system.cpp \
     player_system.cpp \
-    npc.cpp
+    npc.cpp \
+    fight_interface.cpp
 
 HEADERS  += mainwindow.h \
     attribute.h \
@@ -43,6 +44,7 @@ HEADERS  += mainwindow.h \
     bag_system.h \
     setting_system.h \
     player_system.h \
-    npc.h
+    npc.h \
+    fight_interface.h
 
 FORMS    += mainwindow.ui

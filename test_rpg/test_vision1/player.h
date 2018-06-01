@@ -14,11 +14,11 @@ public:
     void key_move(QKeyEvent *e);
     void show(QPainter *pa);
 
-     static int GRID_SIZE;
-
+    static int GRID_SIZE;
+    vector<skill>::iterator it_skill;//迭代器
 private:
     vector<skill> sl;//技能在构造函数里实现
-    vector<skill>::iterator it_skill;//迭代器
+
 };
 
 #endif // PLAYER_H

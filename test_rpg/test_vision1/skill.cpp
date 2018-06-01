@@ -7,7 +7,7 @@ using namespace std;
 
 skill::skill()
 {
-
+    this->state = 1;
 }
 
 void skill::store_pic(QString path)
@@ -24,10 +24,19 @@ bool skill::attack(QPoint &a, QPoint &b)
     {
         if(this->state == 1)
         {
-            this->set_state(3);
+            //this->set_state(3);
             return true;
         }
         else return false;
     }
     else return false;
+}
+
+void skill::show(QPainter *pa,int x,int y)
+{
+    for(this->it_pic = this->pic.begin();it_pic != this->pic.end();it_pic++)
+    {
+        pa->drawImage(x,y,(*it_pic));
+    }
+    this->change_state();
 }

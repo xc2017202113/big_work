@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include<windows.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -10,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->now_interface = 1;
     this->ld = new load_interface;
     this->rd = new run_interface;
+    this->fd = new fight_interface;
     this->_player1 = new player;
     this->_monster1 = new monster;
 
@@ -24,6 +26,8 @@ void MainWindow::paintEvent(QPaintEvent *e)
     QPainter *pa = new QPainter;
     pa->begin(this);
     //this->change_interface(1,1);
+    this->update();
+    Sleep(100);
     switch(this->now_interface)
     {//画出界面
         case 1:
@@ -33,6 +37,67 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
         case 2:
             this->rd->loadinterface(pa);
+            this->_player1->show(pa);
+            this->_monster1->show(pa);
+            break;
+
+        case 3:
+        this->fd->loadinterface(pa);
+        switch(this->fd->get_turn())
+        {
+            case 1:
+                if(this->_player1->getsence() == 4)
+                {
+                    this->fd->changeturn();
+                    this->_monster1->attack();
+                    this->_player1->setsence(2);
+
+                }
+                else if(this->_player1->getsence() == 3)
+                {
+
+                    (*this->_player1->it_skill).show(pa,(this->_monster1->getX()-1)*32,(this->_monster1->getY()-0.4)*32);
+                    this->_monster1->injured((*this->_player1->it_skill).get_harm());
+                    this->_monster1->death();
+                    if(this->_monster1->getstate() == 0)
+                    {
+                        this->now_interface = 2;
+                        this->_monster1->setState(1);
+                        this->_monster1->setsence(1);
+                        this->_monster1->setHP(10);
+                        //this->_player1->setHP(10);
+                        this->_player1->setsence(1);
+                    }
+                    Sleep(100);
+                    //this->_player1->setsence(2);
+                }
+
+            case 2:
+                if(this->_monster1->getsence() == 3)
+                {
+                    (*this->_monster1->it_skill).show(pa,(this->_player1->getX()-1)*32,(this->_player1->getY()-0.4)*32);
+                    this->_player1->injured((*this->_monster1->it_skill).get_harm());
+                    this->_player1->death();
+                    if(this->_player1->getstate() == 0)
+                    {
+                        this->now_interface = 2;
+                        this->_monster1->setState(1);
+                        this->_monster1->setsence(1);
+                        this->_monster1->setHP(10);
+                        //this->_player1->setHP(10);
+                        this->_player1->setsence(1);
+                    }
+                    Sleep(100);
+                }
+                else if(this->_monster1->getsence() == 4)
+                {
+                    this->fd->changeturn();
+                    this->_monster1->setsence(2);
+                }
+
+        }
+
+
             this->_player1->show(pa);
             this->_monster1->show(pa);
             break;
@@ -67,7 +132,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     this->_player1->key_move(event);
+    if(event->key() == Qt::Key_L)
+    {
+        this->now_interface = 3;
+        this->_player1->setsence(2);
+        this->_monster1->setsence(2);
+    }
     this->repaint();
+    if(this->_player1->getsence() == 2) this->_player1->attack(event);
 }
 
 MainWindow::~MainWindow()

@@ -5,7 +5,7 @@
 
 #include"system.h"
 
-class setting_system：public system
+class setting_system:public system
 {
 public:
     setting_system();

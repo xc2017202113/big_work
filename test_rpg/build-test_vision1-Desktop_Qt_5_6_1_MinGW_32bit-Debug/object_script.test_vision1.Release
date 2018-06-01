@@ -8,5 +8,13 @@ INPUT(
 ./release\player.o
 ./release\interface.o
 ./release\monster.o
+./release\system.o
+./release\equipment.o
+./release\mission_system.o
+./release\bag_system.o
+./release\setting_system.o
+./release\player_system.o
+./release\npc.o
+./release\fight_interface.o
 ./release\moc_mainwindow.o
 );
